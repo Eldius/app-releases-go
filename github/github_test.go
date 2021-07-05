@@ -33,7 +33,7 @@ func TestFetchReleases(t *testing.T) {
 	defer gock.Off() // Flush pending mocks after test execution
 
 	repoOwner := "maxPower"
-	repoName := "homeJSimpson"
+	repoName := "my_awsome_project"
 
 	gock.New(url).
 		Get(fmt.Sprintf("/repos/%s/%s/releases", repoOwner, repoName)).
@@ -51,11 +51,33 @@ func TestFetchReleases(t *testing.T) {
 	}
 }
 
+func TestFetchReleasesNotFound(t *testing.T) {
+	defer gock.Off() // Flush pending mocks after test execution
+
+	repoOwner := "maxPower"
+	repoName := "my_awsome_project"
+
+	gock.New(url).
+		Get(fmt.Sprintf("/repos/%s/%s/releases", repoOwner, repoName)).
+		Reply(404).
+		BodyString("")
+
+	fetcher := NewGithubVersionFetcher(repoOwner, repoName)
+	_, err := fetcher.FetchReleases()
+	if err == nil {
+		t.Error("Must fail to fetch releases")
+	}
+	if err.Error() != "Failed to fetch releases (404 Not Found)" {
+		t.Errorf("Wrong error msg: '%s'", err.Error())
+	}
+	t.Log(err.Error())
+}
+
 func TestVerifyNewReleasesWithTwoNewReleases(t *testing.T) {
 	defer gock.Off() // Flush pending mocks after test execution
 
 	repoOwner := "maxPower"
-	repoName := "homeJSimpson"
+	repoName := "my_awsome_project"
 	currentRelease := "v0.0.1"
 	latestRelease := "v0.0.3"
 
@@ -79,7 +101,7 @@ func TestVerifyNewReleasesWithOneNewRelease(t *testing.T) {
 	defer gock.Off() // Flush pending mocks after test execution
 
 	repoOwner := "maxPower"
-	repoName := "homeJSimpson"
+	repoName := "my_awsome_project"
 	currentRelease := "v0.0.2"
 	latestRelease := "v0.0.3"
 
@@ -103,7 +125,7 @@ func TestVerifyNewReleasesWithNoNewRelease(t *testing.T) {
 	defer gock.Off() // Flush pending mocks after test execution
 
 	repoOwner := "maxPower"
-	repoName := "homeJSimpson"
+	repoName := "my_awsome_project"
 	currentRelease := "v0.0.3"
 
 	gock.New(url).
@@ -122,7 +144,7 @@ func TestVerifyNewReleasesWithNoCurrentRelease(t *testing.T) {
 	defer gock.Off() // Flush pending mocks after test execution
 
 	repoOwner := "maxPower"
-	repoName := "homeJSimpson"
+	repoName := "my_awsome_project"
 	currentRelease := ""
 	latestRelease := "v0.0.3"
 

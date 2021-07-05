@@ -62,6 +62,9 @@ func (f GithubVersionFetcher) FetchReleases() ([]versions.Release, error) {
 	if err != nil {
 		return make([]versions.Release, 0), err
 	}
+	if res.StatusCode != 200 {
+		return make([]versions.Release, 0), fmt.Errorf("Failed to fetch releases (%s)", res.Status)
+	}
 	defer res.Body.Close()
 
 	return parseReleasesResponse(res.Body)
@@ -80,3 +83,5 @@ func parseReleasesResponse(body io.ReadCloser) ([]versions.Release, error) {
 	}
 	return result, nil
 }
+
+var GithubVersionAPI versions.VersionAPI = "GITHUB"

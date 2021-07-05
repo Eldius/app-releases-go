@@ -21,3 +21,5 @@ type VersionFetcher interface {
 }
 
 type VersionFetcherFactory func(repoOwner string, repoName string) VersionFetcher
+
+type VersionAPI string
