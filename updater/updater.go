@@ -10,6 +10,10 @@ import (
 	"github.com/Eldius/app-releases-go/versions"
 )
 
+var (
+	GithubVersionAPI versions.VersionAPI = github.GithubVersionAPI
+)
+
 func GetCurrentBinFile() (string, error) {
 	return filepath.Abs(os.Args[0])
 }
