@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/Eldius/app-updater-go/versions"
+	"github.com/Eldius/app-releases-go/versions"
 )
 
 const (

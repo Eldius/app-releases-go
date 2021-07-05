@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/Eldius/app-updater-go/github"
-	"github.com/Eldius/app-updater-go/versions"
+	"github.com/Eldius/app-releases-go/github"
+	"github.com/Eldius/app-releases-go/versions"
 )
 
 func main() {
@@ -24,4 +24,11 @@ func main() {
 		panic(err.Error())
 	}
 	fmt.Println(&releases)
+
+	for _, r := range releases {
+		fmt.Printf("- %s: %s\n", r.GetName(), r.GetPublishedAt())
+		for _, a := range r.GetArtifacts() {
+			fmt.Printf("  - %s: %s\n", a.GetName(), a.GetArtifactURL())
+		}
+	}
 }

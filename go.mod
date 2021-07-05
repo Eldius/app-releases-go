@@ -1,4 +1,4 @@
-module github.com/Eldius/app-updater-go
+module github.com/Eldius/app-releases-go
 
 go 1.16
 
